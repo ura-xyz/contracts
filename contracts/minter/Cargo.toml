@@ -1,0 +1,44 @@
+[package]
+name = "ura-minter"
+version = "1.0.0"
+authors = ["Dexter"]
+edition = "2021"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "artifacts/*",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+# use library feature to disable all instantiate/execute/query exports
+library = []
+token_factory = ["cosmwasm-std/stargate", "cosmwasm-std/cosmwasm_1_1"]
+osmosis_token_factory = [
+  "token_factory",
+] # this is for the osmosis token factory proto definitions, which defer from the standard token factory :)
+
+[dependencies]
+cw-utils = "0.16.0"
+cw2 = "0.16.0"
+cw20 = "0.16.0"
+cw-controllers = "0.16.0"
+cw-storage-plus = "0.16.0"
+cosmwasm-std = { version = "1.1.5", features = ["stargate"] }
+schemars = "0.8.1"
+ura = { path = "../../packages/ura", default-features = false }
+serde = { version = "1.0.103", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.23" }
+cosmwasm-schema = "1.2.2"
+prost = { version = "0.11.9", default-features = false, features = [
+  "prost-derive",
+] }
+prost-types = { version = "0.11.9", default-features = false }
+osmosis-std-derive = { version = "0.15.3" }
+protobuf = { version = "3.2.0", features = ["with-bytes"] }

@@ -1,0 +1,23 @@
+[workspace]
+members = [
+  "packages/ura",
+  "contracts/pair",
+  "contracts/pair_stable",
+  "contracts/factory",
+  "contracts/router",
+  "contracts/token",
+  "contracts/native_coin_registry",
+  "contracts/minter",
+  "contracts/xp_token",
+]
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+overflow-checks = true
+opt-level = 3
+panic = "abort"
+rpath = false

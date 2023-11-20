@@ -1,0 +1,49 @@
+[package]
+name = "ura-pair"
+version = "1.0.0"
+authors = ["Ura"]
+edition = "2021"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# for quicker tests, cargo test --lib
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+library = []
+token_factory = ["cosmwasm-std/stargate", "cosmwasm-std/cosmwasm_1_1"]
+osmosis_token_factory = ["token_factory"]
+
+[dependencies]
+integer-sqrt = "0.1"
+ura = { path = "../../packages/ura", default-features = false }
+cw2 = "0.15"
+cw20 = "0.15"
+cosmwasm-std = { version = "1.1.5", features = ["stargate", "cosmwasm_1_1"] }
+cw-storage-plus = "0.15"
+thiserror = { version = "1.0" }
+protobuf = { version = "2", features = ["with-bytes"] }
+cosmwasm-schema = "1.1"
+cw-utils = "1.0.1"
+osmosis-std-derive = { version = "0.15.3" }
+schemars = "0.8.1"
+serde = { version = "1.0.103", default-features = false, features = ["derive"] }
+prost = { version = "0.11.9", default-features = false, features = [
+  "prost-derive",
+] }
+prost-types = { version = "0.11.9", default-features = false }
+
+[dev-dependencies]
+ura-token = { path = "../token" }
+proptest = "1.0"
+prost = "0.11.5"
+ura_mock = { path = "../../packages/ura_mock", default-features = false }
