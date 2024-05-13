@@ -167,7 +167,7 @@ pub struct ConfigResponse {
     /// The address of the contract that contains the coins and their accuracy
     pub coin_registry_address: Addr,
     /// Address that accumulates the fees in phrase 1
-    pub fee_address: Addr,
+    pub fee_address: Option<Addr>,
 }
 
 /// This structure stores the parameters used in a migration message.

@@ -774,8 +774,7 @@ pub fn swap(
                     }],
                 }),
             });
-        } else {
-            let fee_address = fee_info.fee_address;
+        } else if let Some(fee_address) = fee_info.fee_address {
             messages.push(match ask_pool.info.clone() {
                 AssetInfo::Token { contract_addr } => CosmosMsg::Wasm(WasmMsg::Execute {
                     contract_addr: contract_addr.to_string(),
@@ -793,6 +792,8 @@ pub fn swap(
                     }],
                 }),
             });
+        } else {
+            // do nothing
         }
     }
 

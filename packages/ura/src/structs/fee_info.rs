@@ -7,7 +7,7 @@ pub struct FeeInfo {
     /// The gauge address
     pub gauge_address: Option<Addr>,
     /// The fee address that accumulates the fees in phrase 1
-    pub fee_address: Addr,
+    pub fee_address: Option<Addr>,
     /// The total amount of fees charged per swap
     pub total_fee_rate: Decimal,
 }
