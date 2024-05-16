@@ -18,7 +18,7 @@ pub struct Config {
     /// The address of the contract that contains the coins with their precision
     pub coin_registry_address: Addr,
     /// Fee accumulation address
-    pub fee_address: Addr,
+    pub fee_address: Option<Addr>,
 }
 
 #[cw_serde]

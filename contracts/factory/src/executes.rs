@@ -120,7 +120,7 @@ pub fn execute_update_config(
 
     if let Some(fee_address) = param.fee_address {
         // Validate the address format
-        config.fee_address = deps.api.addr_validate(&fee_address)?;
+        config.fee_address = Some(deps.api.addr_validate(&fee_address)?);
     }
 
     CONFIG.save(deps.storage, &config)?;

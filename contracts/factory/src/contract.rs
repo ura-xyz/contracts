@@ -24,9 +24,9 @@ pub fn instantiate(
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
     let fee_accumulation_address = if let Some(fee_address) = msg.fee_address {
-        deps.api.addr_validate(&fee_address)?
+        Some(deps.api.addr_validate(&fee_address)?)
     } else {
-        info.sender
+        None
     };
 
     let config = Config {
