@@ -751,50 +751,7 @@ pub fn swap(
     }
 
     // Compute the fee for gauge
-    let mut gauge_fee_amount = Uint128::zero();
-    if !commission_amount.is_zero() {
-        if let Some(gauge_addr) = fee_info.gauge_address {
-            gauge_fee_amount = commission_amount;
-            messages.push(match ask_pool.info.clone() {
-                AssetInfo::Token { contract_addr } => CosmosMsg::Wasm(WasmMsg::Execute {
-                    contract_addr: contract_addr.to_string(),
-                    msg: to_json_binary(&Cw20ExecuteMsg::Send {
-                        contract: gauge_addr.to_string(),
-                        amount: gauge_fee_amount,
-                        msg: to_json_binary(&GaugeHookMsg::DepositFees {})?,
-                    })?,
-                    funds: vec![],
-                }),
-                AssetInfo::NativeToken { denom } => CosmosMsg::Wasm(WasmMsg::Execute {
-                    contract_addr: gauge_addr.to_string(),
-                    msg: to_json_binary(&GaugeExecuteMsg::DepositFees {})?,
-                    funds: vec![Coin {
-                        denom: denom,
-                        amount: gauge_fee_amount,
-                    }],
-                }),
-            });
-        } else {
-            let fee_address = fee_info.fee_address;
-            messages.push(match ask_pool.info.clone() {
-                AssetInfo::Token { contract_addr } => CosmosMsg::Wasm(WasmMsg::Execute {
-                    contract_addr: contract_addr.to_string(),
-                    msg: to_json_binary(&Cw20ExecuteMsg::Transfer {
-                        recipient: fee_address.to_string(),
-                        amount: commission_amount,
-                    })?,
-                    funds: vec![],
-                }),
-                AssetInfo::NativeToken { denom } => CosmosMsg::Bank(BankMsg::Send {
-                    to_address: fee_address.to_string(),
-                    amount: vec![Coin {
-                        denom: denom.clone(),
-                        amount: commission_amount,
-                    }],
-                }),
-            });
-        }
-    }
+    let gauge_fee_amount = Uint128::zero();
 
     Ok(Response::new()
         .add_messages(
